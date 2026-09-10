@@ -5,7 +5,7 @@ const menu=$('.menu-toggle');menu?.addEventListener('click',()=>{const expanded=
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu?.getAttribute('aria-expanded')==='true'){menu.click();menu.focus();}});
 const path=location.pathname.split('/').pop()||'index.html';$$('nav a').forEach(a=>{if(a.getAttribute('href')===path)a.setAttribute('aria-current','page');});
 const pathForm=$('#construction-path');
-if(pathForm){pathForm.addEventListener('change',event=>{const raw=Object.fromEntries(new FormData(pathForm));const s=normalize(raw,event.target.name);pathForm.elements.recursos.value=s.recursos;pathForm.elements.modalidade.value=s.modalidade;$('#path-rule').textContent=s.modalidade==='projeto'?'Gestão do projeto inclui o acompanhamento do financiamento pela Caixa, sem execução da obra. Por isso, o financiamento foi selecionado.':raw.modalidade==='projeto'&&s.modalidade!=='projeto'?'A forma de pagamento mudou. Escolha outra modalidade ou mantenha “preciso de orientação”.':'';});}
+if(pathForm){pathForm.addEventListener('change',event=>{const raw=Object.fromEntries(new FormData(pathForm));const s=normalize(raw,event.target.name);pathForm.elements.recursos.value=s.recursos;pathForm.elements.modalidade.value=s.modalidade;$('#path-rule').textContent=s.modalidade==='projeto'?'Esta modalidade inclui projeto técnico e acompanhamento do financiamento na Caixa. Por isso, o campo de pagamento foi preenchido com financiamento. A FCK3 não executa a obra nesta modalidade.':raw.modalidade==='projeto'&&s.modalidade!=='projeto'?'Você alterou a forma de pagamento. Selecione outra modalidade ou mantenha “Ainda preciso de orientação”.':'';});}
 const form=$('#contact-form');
 if(form){
  const params=Object.fromEntries(new URLSearchParams(location.search));const first=normalize(params);
@@ -20,11 +20,11 @@ if(form){
   const isConstruction=s.servico==='construcao';construction.hidden=!isConstruction;
   $$('select',construction).forEach(el=>el.disabled=!isConstruction);
   $('#reform-rule').hidden=s.servico!=='reforma';
-  const title=$('#contact-title');title.replaceChildren(document.createTextNode('Vamos conhecer'),document.createElement('br'));
+  const title=$('#contact-title');title.replaceChildren(document.createTextNode('Conte sobre'),document.createElement('br'));
   const em=document.createElement('em');em.textContent=s.servico==='construcao'?'sua construção.':s.servico==='reforma'?'sua reforma.':'seu projeto.';title.append(em);
-  let rule=s.modalidade==='projeto'?'Gestão do projeto inclui projeto técnico e financiamento pela Caixa, sem execução. Por isso, selecionamos o financiamento.':'';
+  let rule=s.modalidade==='projeto'?'Esta modalidade inclui projeto técnico e acompanhamento do financiamento na Caixa. Por isso, o campo de pagamento foi preenchido com financiamento. A FCK3 não executa a obra nesta modalidade.':'';
   if(s.modalidade==='projeto'&&s.tipo==='comercial')rule+=' [Atendimento comercial nesta modalidade a confirmar com Fazilari.]';
-  if(raw.modalidade==='projeto'&&s.modalidade!=='projeto')rule='A forma de pagamento mudou. Escolha outra modalidade ou mantenha “preciso de orientação”.';
+  if(raw.modalidade==='projeto'&&s.modalidade!=='projeto')rule='Você alterou a forma de pagamento. Selecione outra modalidade ou mantenha “Ainda preciso de orientação”.';
   $('#form-rule').textContent=rule;
  };
  sync();
@@ -45,5 +45,5 @@ if(form){
  $('#back-review').addEventListener('click',()=>{confirmation.hidden=true;review.hidden=false;stage(2);review.focus();});
 }
 const cards=$$('.project-card');
-if(cards.length){let filter='todas';let limit=3;const render=()=>{const matching=cards.filter(c=>filter==='todas'||c.dataset.service===filter||c.dataset.type===filter);cards.forEach(c=>c.hidden=true);matching.slice(0,limit).forEach(c=>c.hidden=false);$('#load-more').hidden=matching.length<=limit;$('#filter-status').textContent=`${matching.length} espaços de projeto · Exibindo ${Math.min(limit,matching.length)}`;};$$('[data-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;limit=3;$$('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));render();}));$('#load-more').addEventListener('click',()=>{limit+=3;render();});render();}
+if(cards.length){let filter='todas';let limit=3;const render=()=>{const matching=cards.filter(c=>filter==='todas'||c.dataset.service===filter||c.dataset.type===filter);cards.forEach(c=>c.hidden=true);matching.slice(0,limit).forEach(c=>c.hidden=false);$('#load-more').hidden=matching.length<=limit;$('#filter-status').textContent=`Mostrando ${Math.min(limit,matching.length)} de ${matching.length} exemplos de obra`;};$$('[data-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;limit=3;$$('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));render();}));$('#load-more').addEventListener('click',()=>{limit+=3;render();});render();}
 const projectTitle=$('#project-title');if(projectTitle){const raw=new URLSearchParams(location.search).get('id');const id=/^[1-6]$/.test(raw||'')?raw:null;projectTitle.textContent=id?`[Nome da obra ${id}]`:'[Nome da obra]';}
