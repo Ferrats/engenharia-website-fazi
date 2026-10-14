@@ -20,3 +20,15 @@
   .story p{margin-bottom:24px}
   .story h3{margin-top:36px;padding-top:28px}
 }
+
+/* Center the construction CTA within its column without stretching it. */
+#construction-path .finance-section>div:last-child{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+}
+#construction-path .finance-section>div:last-child>.button{
+  flex:0 1 auto;
+  max-width:100%;
+}
