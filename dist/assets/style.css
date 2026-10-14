@@ -35,3 +35,12 @@
 
 /* Match the spacing after other highlighted sections. */
 #construction-path .finance-section{margin-bottom:clamp(32px,5vw,65px)}
+
+/* Align the construction panel with the outer edges of the cards above. */
+#construction-path .finance-section{
+  width:90%;
+  max-width:calc(1440px - 10%);
+}
+@media(max-width:650px){
+  #construction-path .finance-section{width:88%}
+}
