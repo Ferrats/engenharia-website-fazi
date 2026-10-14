@@ -32,3 +32,6 @@
   flex:0 1 auto;
   max-width:100%;
 }
+
+/* Match the spacing after other highlighted sections. */
+#construction-path .finance-section{margin-bottom:clamp(32px,5vw,65px)}
