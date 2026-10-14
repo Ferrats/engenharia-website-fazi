@@ -4,8 +4,6 @@ const $$=(q,root=document)=>[...root.querySelectorAll(q)];
 const menu=$('.menu-toggle');menu?.addEventListener('click',()=>{const expanded=menu.getAttribute('aria-expanded')==='true';menu.setAttribute('aria-expanded',String(!expanded));$('#navigation').classList.toggle('open',!expanded);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu?.getAttribute('aria-expanded')==='true'){menu.click();menu.focus();}});
 const path=location.pathname.split('/').pop()||'index.html';$$('nav a').forEach(a=>{if(a.getAttribute('href')===path)a.setAttribute('aria-current','page');});
-const pathForm=$('#construction-path');
-if(pathForm){pathForm.addEventListener('change',event=>{const raw=Object.fromEntries(new FormData(pathForm));const s=normalize(raw,event.target.name);pathForm.elements.recursos.value=s.recursos;pathForm.elements.modalidade.value=s.modalidade;$('#path-rule').textContent=s.modalidade==='projeto'?'Esta modalidade inclui projeto técnico e acompanhamento do financiamento na Caixa. Por isso, o campo de pagamento foi preenchido com financiamento. A FCK3 não executa a obra nesta modalidade.':raw.modalidade==='projeto'&&s.modalidade!=='projeto'?'Você alterou a forma de pagamento. Selecione outra modalidade ou mantenha “Ainda preciso de orientação”.':'';});}
 const form=$('#contact-form');
 if(form){
  const params=Object.fromEntries(new URLSearchParams(location.search));const first=normalize(params);
