@@ -48,3 +48,57 @@ nav{display:flex;gap:30px;align-items:center;font-size:14px}nav a:not(.button){p
 @media(max-width:650px){
   #construction-path .finance-section{width:88%}
 }
+
+.project-cover,
+.project-feature,
+.project-gallery-photo {
+  display: block;
+  width: 100%;
+  background: var(--sand);
+}
+.project-cover {
+  aspect-ratio: 4 / 3;
+  height: auto;
+  object-fit: cover;
+}
+.project-feature {
+  aspect-ratio: 16 / 7;
+  height: auto;
+  object-fit: cover;
+}
+.project-card > .eyebrow {
+  font-size: 12px;
+  margin: 18px 0 8px;
+}
+.project-card h2 {
+  font-size: 22px;
+  margin: 0;
+}
+.project-title-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+.project-gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 18px;
+}
+.project-gallery a {
+  display: block;
+}
+.project-gallery-photo {
+  aspect-ratio: 3 / 2;
+  height: auto;
+  object-fit: contain;
+}
+.project-gallery-portrait .project-gallery-photo {
+  aspect-ratio: 3 / 4;
+}
+@media (max-width: 650px) {
+  .project-feature {
+    aspect-ratio: 4 / 3;
+  }
+}

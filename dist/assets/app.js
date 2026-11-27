@@ -42,6 +42,31 @@ if(form){
  $('#simulate-send').addEventListener('click',()=>{review.hidden=true;confirmation.hidden=false;stage(3);confirmation.focus();confirmation.scrollIntoView({block:'start'});});
  $('#back-review').addEventListener('click',()=>{confirmation.hidden=true;review.hidden=false;stage(2);review.focus();});
 }
-const cards=$$('.project-card');
-if(cards.length){let filter='todas';let limit=3;const render=()=>{const matching=cards.filter(c=>filter==='todas'||c.dataset.service===filter||c.dataset.type===filter);cards.forEach(c=>c.hidden=true);matching.slice(0,limit).forEach(c=>c.hidden=false);$('#load-more').hidden=matching.length<=limit;$('#filter-status').textContent=`Mostrando ${Math.min(limit,matching.length)} de ${matching.length} exemplos de obra`;};$$('[data-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;limit=3;$$('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));render();}));$('#load-more').addEventListener('click',()=>{limit+=3;render();});render();}
+const cards = $$('.project-card');
+const filters = $('.filters');
+const filterStatus = $('#filter-status');
+if (cards.length && filters && filterStatus) {
+ const buttons = $$('[data-filter]', filters);
+ filters.hidden = false;
+ filterStatus.hidden = false;
+
+ const renderProjects = (filter) => {
+  for (const card of cards) {
+   card.hidden = filter !== 'todas' && card.dataset.type !== filter && card.dataset.service !== filter;
+  }
+
+  const count = cards.filter(card => !card.hidden).length;
+  filterStatus.textContent = count === 1 ? '1 obra' : `${count} obras`;
+ };
+
+ for (const button of buttons) {
+  button.addEventListener('click', () => {
+   for (const option of buttons) {
+    option.setAttribute('aria-pressed', String(option === button));
+   }
+   renderProjects(button.dataset.filter);
+  });
+ }
+ renderProjects('todas');
+}
 const projectTitle=$('#project-title');if(projectTitle){const raw=new URLSearchParams(location.search).get('id');const id=/^[1-6]$/.test(raw||'')?raw:null;projectTitle.textContent=id?`[Nome da obra ${id}]`:'[Nome da obra]';}
